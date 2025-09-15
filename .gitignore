@@ -1,30 +1,26 @@
-# Flutter/Dart
+# Flutter / Dart
 .dart_tool/
 .packages
 .flutter-plugins
 .flutter-plugins-dependencies
 .flutter-versions
-.idea/
-.vscode/
-build/
 pubspec.lock
 
-# Android
-android/.gradle/
-android/app/build/
-**/local.properties
+# IDE
+.idea/
+.vscode/
 
-# iOS
-ios/Pods/
-ios/Runner.xcworkspace/
-ios/Flutter/Flutter.podspec
-ios/Flutter/Generated.xcconfig
-ios/Runner/GeneratedPluginRegistrant.*
+# Build / plateformes
+build/
+android/
+ios/
+windows/
+macos/
+linux/
+web/
 
-# Linux / macOS / Windows
-linux/flutter/
-macos/Flutter/Generated.xcconfig
-windows/flutter/
+# Tests
+test/
 
 # Hive
 *.hive
@@ -37,3 +33,6 @@ lib/hive/
 
 # Logs
 *.log
+
+# Local properties (Android)
+**/local.properties
