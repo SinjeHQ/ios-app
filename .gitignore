@@ -1,38 +1,48 @@
-# Flutter / Dart
+# Flutter/Dart
 .dart_tool/
 .packages
-.flutter-plugins
-.flutter-plugins-dependencies
-.flutter-versions
-pubspec.lock
+.pub/
+build/
+generated_plugin_registrant.dart
 
-# IDE
+# IntelliJ / Android Studio
 .idea/
+*.iml
+
+# VS Code
 .vscode/
 
-# Build / plateformes
-build/
-android/
-ios/
-windows/
-macos/
-linux/
-web/
+# Mac
+*.DS_Store
 
-# Tests
+# iOS
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+
+# Android
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# Windows
+windows/Flutter/ephemeral/
+windows/runner/Debug/
+windows/runner/Release/
+
+# Linux
+linux/Flutter/ephemeral/
+linux/build/
+
+# Web
+web/build/
+
+# Test & temp
 test/
-
-# Hive
-*.hive
-*.hive.lock
-lib/hive/
-
-# Generated files by build_runner
-*.g.dart
+*.log
 *.lock
 
-# Logs
-*.log
-
-# Local properties (Android)
-**/local.properties
+# Assets ou autres fichiers temporaires
+*.swp
