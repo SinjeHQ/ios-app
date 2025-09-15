@@ -37,7 +37,8 @@ Application mobile Flutter développée pour les équipes de l'UIMM Occitanie af
 - Responsive design compatible iPhone / iPad
 
 ## 📂 Arborescence du projet
-```mon_app/
+```
+mon_app/
 │
 ├─ lib/
 │ ├─ main.dart
@@ -53,7 +54,7 @@ Application mobile Flutter développée pour les équipes de l'UIMM Occitanie af
 │ └─ images/logo_uimm.jpg
 ├─ pubspec.yaml
 └─ README.md
-
+```
 ## 🚀 Installation
 - Cloner le dépôt :  
    ```bash
@@ -86,9 +87,7 @@ flutter run
 - API REST pour insertion et récupération des prospects : insert_prospect.php
 
 - JSON envoyé :
-
-json
-Copier le code
+```
 {
   "nom": "...",
   "prenom": "...",
@@ -101,7 +100,7 @@ Copier le code
   "commentaires": "...",
   "consentementRGPD": true
 }
-
+```
 ## 🎨 Design
 - Thème aux couleurs de l'école.
 
