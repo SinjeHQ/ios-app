@@ -52,7 +52,7 @@ Application mobile Flutter développée pour les équipes de l'UIMM Occitanie af
 ├─ assets/
 │ └─ images/logo_uimm.jpg
 ├─ pubspec.yaml
-└─ README.md'''
+└─ README.md
 
 ## 🚀 Installation
 - Cloner le dépôt :  
