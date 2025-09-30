@@ -38,7 +38,7 @@ Application mobile Flutter développée pour les équipes de l'UIMM Occitanie af
 
 ## 📂 Arborescence du projet
 ```
-mon_app/
+ios_app/
 │
 ├─ lib/
 │ ├─ main.dart
