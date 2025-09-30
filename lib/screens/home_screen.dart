@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
                 const Text(
                   "Bienvenue dans l'application de collecte de prospects.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
+                  style: TextStyle(fontSize: 16, color: Colors.blue),
                 ),
                 const SizedBox(height: 40),
                 ElevatedButton.icon(
