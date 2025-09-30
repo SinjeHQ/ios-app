@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-part 'prospect.g.dart';
+part 'prospect.g.dart'; // fichier généré automatiquement
 
 @HiveType(typeId: 0)
 class Prospect extends HiveObject {
@@ -35,7 +35,7 @@ class Prospect extends HiveObject {
   bool consentementRGPD;
 
   @HiveField(10)
-  bool isSynced;
+  bool isSynced; // Indique si le prospect est synchronisé avec l'API
 
   Prospect({
     required this.nom,
@@ -50,4 +50,32 @@ class Prospect extends HiveObject {
     required this.consentementRGPD,
     this.isSynced = false,
   });
+
+  Prospect copyWith({
+    String? nom,
+    String? prenom,
+    DateTime? dateNaissance,
+    String? email,
+    String? telephone,
+    String? ville,
+    String? niveauEtudes,
+    String? formation,
+    String? commentaires,
+    bool? consentementRGPD,
+    bool? isSynced,
+  }) {
+    return Prospect(
+      nom: nom ?? this.nom,
+      prenom: prenom ?? this.prenom,
+      dateNaissance: dateNaissance ?? this.dateNaissance,
+      email: email ?? this.email,
+      telephone: telephone ?? this.telephone,
+      ville: ville ?? this.ville,
+      niveauEtudes: niveauEtudes ?? this.niveauEtudes,
+      formation: formation ?? this.formation,
+      commentaires: commentaires ?? this.commentaires,
+      consentementRGPD: consentementRGPD ?? this.consentementRGPD,
+      isSynced: isSynced ?? this.isSynced,
+    );
+  }
 }

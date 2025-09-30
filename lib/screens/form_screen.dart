@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/prospect.dart';
 import 'package:intl/intl.dart';
+import '../services/sync_service.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -60,6 +61,7 @@ class _FormScreenState extends State<FormScreen> {
         _dateNaissance != null &&
         _formation != null) {
       _formKey.currentState!.save();
+
       final newProspect = Prospect(
         nom: _nom!,
         prenom: _prenom!,
@@ -71,13 +73,28 @@ class _FormScreenState extends State<FormScreen> {
         formation: _formation!,
         commentaires: _commentaires,
         consentementRGPD: _consentementRGPD,
+        isSynced: false, // non synchronisé au début
       );
+
       final box = Hive.box<Prospect>('prospects');
       await box.add(newProspect);
 
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Formulaire enregistré !')));
+      try {
+        await SyncService.syncProspects();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Formulaire enregistré et synchronisé !'),
+          ),
+        );
+      } catch (e) {
+        // En cas d’erreur (ex : pas d’internet)
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Formulaire enregistré en mode hors-ligne'),
+          ),
+        );
+      }
+
       _formKey.currentState!.reset();
       setState(() {
         _dateNaissance = null;
