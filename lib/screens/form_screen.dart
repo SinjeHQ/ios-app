@@ -4,6 +4,53 @@ import '../models/prospect.dart';
 import 'package:intl/intl.dart';
 import '../services/sync_service.dart';
 
+class ClickColorButton extends StatefulWidget {
+  final Future<void> Function() onPressed;
+  final Widget child;
+
+  const ClickColorButton({
+    required this.onPressed,
+    required this.child,
+    super.key,
+  });
+
+  @override
+  State<ClickColorButton> createState() => _ClickColorButtonState();
+}
+
+class _ClickColorButtonState extends State<ClickColorButton> {
+  bool _clicked = false;
+
+  Future<void> _handlePressed() async {
+    setState(() {
+      _clicked = true;
+    });
+    await widget.onPressed();
+    await Future.delayed(const Duration(seconds: 1));
+    if (mounted) {
+      setState(() {
+        _clicked = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: _handlePressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _clicked ? Colors.green : Colors.white,
+        foregroundColor: _clicked ? Colors.white : Colors.green,
+        minimumSize: const Size(double.infinity, 60),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        side: const BorderSide(color: Colors.grey, width: 1.5),
+        elevation: 0,
+      ),
+      child: widget.child,
+    );
+  }
+}
+
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
 
@@ -39,7 +86,7 @@ class _FormScreenState extends State<FormScreen> {
     'Master IA',
   ];
 
-  Future<void> _selectDate(BuildContext context) async {
+  Future<void> _selectDate() async {
     final date = await showDatePicker(
       context: context,
       initialDate: DateTime(2005),
@@ -49,7 +96,7 @@ class _FormScreenState extends State<FormScreen> {
     if (date != null) setState(() => _dateNaissance = date);
   }
 
-  void _soumettreFormulaire() async {
+  Future<void> _soumettreFormulaire() async {
     if (!_consentementRGPD) {
       ScaffoldMessenger.of(
         context,
@@ -73,7 +120,7 @@ class _FormScreenState extends State<FormScreen> {
         formation: _formation!,
         commentaires: _commentaires,
         consentementRGPD: _consentementRGPD,
-        isSynced: false, // non synchronisé au début
+        isSynced: false,
       );
 
       final box = Hive.box<Prospect>('prospects');
@@ -87,7 +134,6 @@ class _FormScreenState extends State<FormScreen> {
           ),
         );
       } catch (e) {
-        // En cas d’erreur (ex : pas d’internet)
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Formulaire enregistré en mode hors-ligne'),
@@ -101,6 +147,12 @@ class _FormScreenState extends State<FormScreen> {
         _formation = null;
         _consentementRGPD = false;
       });
+    } else if (_dateNaissance == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Veuillez sélectionner une date de naissance'),
+        ),
+      );
     }
   }
 
@@ -111,7 +163,11 @@ class _FormScreenState extends State<FormScreen> {
         : 'Sélectionner la date';
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Nouveau Prospect")),
+      appBar: AppBar(
+        title: const Text('Nouvelle inscription'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 126, 192, 247),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -134,9 +190,13 @@ class _FormScreenState extends State<FormScreen> {
               ),
               const SizedBox(height: 12),
               Text('Date de naissance: $dateFormatted'),
-              ElevatedButton(
-                onPressed: () => _selectDate(context),
-                child: const Text('📅 Choisir une date'),
+              const SizedBox(height: 8),
+              ClickColorButton(
+                onPressed: _selectDate,
+                child: const Text(
+                  '📅 Choisir une date',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -151,7 +211,7 @@ class _FormScreenState extends State<FormScreen> {
                 decoration: const InputDecoration(
                   labelText: 'Formation souhaitée',
                 ),
-                value: _formation,
+                initialValue: _formation,
                 items: _formations
                     .map((f) => DropdownMenuItem(value: f, child: Text(f)))
                     .toList(),
@@ -168,23 +228,26 @@ class _FormScreenState extends State<FormScreen> {
                 keyboardType: TextInputType.phone,
                 onSaved: (val) => _telephone = val,
               ),
+              const SizedBox(height: 12),
               TextFormField(
                 decoration: const InputDecoration(
                   labelText: 'Ville / Code postal',
                 ),
                 onSaved: (val) => _ville = val,
               ),
+              const SizedBox(height: 12),
               DropdownButtonFormField<String>(
                 decoration: const InputDecoration(
                   labelText: 'Niveau d\'études actuel',
                 ),
-                value: _niveauEtudes,
+                initialValue: _niveauEtudes,
                 items: _niveauxEtudes
                     .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                     .toList(),
                 onChanged: (val) => setState(() => _niveauEtudes = val),
                 onSaved: (val) => _niveauEtudes = val,
               ),
+              const SizedBox(height: 12),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Commentaires'),
                 maxLines: 3,
@@ -201,9 +264,12 @@ class _FormScreenState extends State<FormScreen> {
               ),
               const SizedBox(height: 16),
               Center(
-                child: ElevatedButton(
+                child: ClickColorButton(
                   onPressed: _soumettreFormulaire,
-                  child: const Text('Soumettre'),
+                  child: const Text(
+                    'Soumettre',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
               ),
             ],

@@ -8,7 +8,11 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Historique")),
+      appBar: AppBar(
+        title: const Text('Historique'),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 126, 192, 247),
+      ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<Prospect>('prospects').listenable(),
         builder: (context, Box<Prospect> box, _) {
